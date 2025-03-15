@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flask Todo List</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-5 text-center">Todo List</h1>
+    <form action="{{ url_for('add') }}" method="POST" class="d-flex mb-3">
+      <input type="text" name="task" class="form-control me-2" placeholder="Enter a new task" required>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+    <ul class="list-group">
+      {% for todo in todos %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <span {% if todo.complete %}style="text-decoration: line-through;"{% endif %}>
+            {{ todo.task }}
+          </span>
+          <div>
+            <a href="{{ url_for('complete', todo_id=todo.id) }}" class="btn btn-sm {% if todo.complete %}btn-warning{% else %}btn-success{% endif %}">
+              {% if todo.complete %}Undo{% else %}Complete{% endif %}
+            </a>
+            <a href="{{ url_for('delete', todo_id=todo.id) }}" class="btn btn-sm btn-danger">Delete</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
